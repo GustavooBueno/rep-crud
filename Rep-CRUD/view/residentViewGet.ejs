@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/styles.css"> <!-- Link para o seu arquivo CSS externo -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.0/css/all.min.css">
+  <title>Moradores</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f0f0;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      padding: 1rem 0;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    nav {
+      margin-top: 1rem;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      margin: 0 1rem;
+    }
+
+    .resident-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .resident-item {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      margin: 1rem;
+      padding: 1rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-wrap: wrap;
+      cursor: pointer;  
+      text-decoration: none;
+    }
+
+    .resident-info {
+      flex: 1;
+    }
+
+    .resident-info h2 {
+      margin: 0;
+    }
+    
+    .resident-info p {
+      margin: 0.5rem 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Lista de Moradores</h1>
+    <nav>
+      <a href="/residents/new">Novo Morador</a>
+    </nav>
+  </header>
+  <ul class="resident-list">
+    <% for (let i = 0; i < resident.length; i++) { %>
+      <li class="resident-item">
+        <div class="resident-info">
+          <h2><%= resident[i].fullName %></h2>
+          <p>Apelido: <%= resident[i].nickname %></p>
+          <p>Curso: <%= resident[i].course %></p>
+          <p>Ano: <%= resident[i].year %></p>
+        </div>
+        <div class="resident-edit">
+          <a href="/residents/change/<%= resident[i]._id %>"><i class="fas fa-edit"></i></a>
+          <a href="/residents/<%= resident[i]._id %>/delete" onclick="return confirmDelete()"><i class="fas fa-trash"></i></a>
+          <script>
+            // Função para exibir o alerta de confirmação
+            function confirmDelete() {
+              return confirm("Tem certeza que deseja deletar este morador?");
+            }
+
+            const residentItems = document.querySelectorAll('.resident-item');
+
+            for (const item of residentItems) {
+              item.addEventListener('click', function() {
+                // Redirecionar para a página de perfil do morador
+                window.location.href = "/residents/<%= resident[i]._id %>/profile";
+              });
+            }
+          </script>
+        </div>
+      </li>
+    <% } %>
+  </ul>
+</body>
+</html>
